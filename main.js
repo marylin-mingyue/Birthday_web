@@ -6,13 +6,24 @@ const CONTENT = {
   A: {
     title: "A · 第一次见面心动了吗？",
     messages: [
-      "嘻嘻～这是我偷偷准备的小浪漫！",
-      "你看你看～这张照片我超喜欢！",
-      "砰砰～心动警报！",
-      "今天也要开心哦！",
+      "并非 ovo",
+      "只是碰巧把镜头对向你",
+      "台湾，澳门，香港，广州，深圳...",
+      "我们的脚步会遍布世界ovo",
     ],
-    photos: ["./unnamed.jpg"],
-    danmaku: { mode: "static", count: 12 },
+    photos: [
+      "./assets/photo/photo1.JPG",
+      "./assets/photo/photo2.JPG",
+      "./assets/photo/photo3.JPG",
+      "./assets/photo/photo4.JPG",
+      "./assets/photo/photo5.JPG",
+      "./assets/photo/photo6.JPG",
+      "./assets/photo/photo7.JPG",
+      "./assets/photo/photo8.JPG",
+      "./assets/photo/photo9.JPG",
+      "./assets/photo/photo10.JPG",
+    ],
+    danmaku: { mode: "static", count: 4 },
   },
   B: {
     title: "B · 我男朋友的 1e9+10 个优点",
@@ -28,11 +39,15 @@ const CONTENT = {
     letter: {
       title: "给你的一封信",
       body: [
-        "（把信的正文写在这里）",
-        "你可以写很多段，每段会自动换行显示。",
-        "例如：谢谢你出现、谢谢你坚定选择我。未来也想和你一起走很远很远。",
+        "生日快乐呀！突然意识到你的虚岁和你的真实年龄是不是差一年（？）印象中，我上一次写信应该还在小学，我们平时的无话不谈也让我觉得没有写信表达的必要。",
+        "你是一个很有原则很有秩序感的人，每次和你在一起我就会觉得心安，很多崩溃的瞬间我的第一反应都是想要抱抱你，本来挺委屈的，抱完莫名其妙想笑（？）。",
+        "即使我小小的脑子里面认为的天大的事情，也只需要闻闻你身上的味道😋好像你在我身边我就没有什么解决不了的事。这个可能就是大家所说的生理性喜欢？我不知道。",
+        "你是一个很聪明的人，代码高手，我爸妈这么形容你。不管什么复杂的任务，涉及方方面面，好像你只要略微出手就没什么难事（？）你身上的松弛感是我最羡慕的东西，虽然我也很想得到你的智商（？）",
+        "肉麻的话我其实挺懒的说的，因为我知道你一定懒得听。",
+        "你是最棒的，去美国之前一定要多带衣服，纽约现在零下二度。",
+        "祝你在新的一年得偿所愿，笑口常开，平安喜乐～",
       ],
-      sign: "—— 爱你的我",
+      sign: "—— 爱你的 徐铭悦",
     },
   },
   D: {
@@ -47,15 +62,15 @@ const CONTENT = {
     giftWall: {
       maxOpen: 3,
       gifts: [
-        { photo: "./unnamed.jpg", text: "（写一句）" },
-        { photo: "./unnamed.jpg", text: "（写一句）" },
-        { photo: "./unnamed.jpg", text: "（写一句）" },
-        { photo: "./unnamed.jpg", text: "（写一句）" },
-        { photo: "./unnamed.jpg", text: "（写一句）" },
-        { photo: "./unnamed.jpg", text: "（写一句）" },
-        { photo: "./unnamed.jpg", text: "（写一句）" },
-        { photo: "./unnamed.jpg", text: "（写一句）" },
-        { photo: "./unnamed.jpg", text: "（写一句）" },
+        { photo: "./assets/gift/jellycat.PNG", text: "jellycat" },
+        { photo: "./assets/gift/小米书包.jpg", text: "小米书包" },
+        { photo: "./assets/gift/斜挎包.PNG", text: "斜挎包" },
+        { photo: "./assets/gift/松下便携剃须刀.PNG", text: "松下便携剃须刀" },
+        { photo: "./assets/gift/电动牙刷.PNG", text: "电动牙刷" },
+        { photo: "./assets/gift/睡衣.PNG", text: "睡衣" },
+        { photo: "./assets/gift/科技袜子.PNG", text: "科技袜子" },
+        { photo: "./assets/gift/颈部按摩仪.PNG", text: "颈部按摩仪" },
+        { photo: "./assets/gift/黑科技眼罩.PNG", text: "黑科技眼罩" },
       ],
       reveal: {
         title: "礼物全部拆开啦！",
@@ -86,6 +101,10 @@ const els = {
   giftWall: $("giftWall"),
   giftGrid: $("giftGrid"),
   giftHint: $("giftHint"),
+  giftResult: $("giftResult"),
+  giftResultGrid: $("giftResultGrid"),
+  giftResultClose: $("giftResultClose"),
+  giftResultBackHome: $("giftResultBackHome"),
 
   // C letter
   letterScroll: $("letterScroll"),
@@ -108,6 +127,7 @@ let danmakuTimer = null;
 let danmakuIdx = 0;
 let photoObjectUrls = [];
 let openedGifts = new Set();
+let openedGiftOrder = [];
 
 // Monaco
 let monacoEditor = null;
@@ -130,6 +150,19 @@ public:
         
     }
 };`;
+
+const B_VIRTUES_TEST1 = [
+  "聪明",
+  "帅气",
+  "温柔(almost time)",
+  "无论何时都有冷静解决问题的能力",
+  "内心坚定",
+  "有条理和计划",
+  "有底线",
+  "高情商",
+  "讲原则和义气",
+  "明辨是非",
+];
 
 function applyRoute(state) {
   // Prefer history state; fallback to hash route (#A/#B/#C/#D)
@@ -155,6 +188,7 @@ function showHomeView({ pushHistory } = { pushHistory: true }) {
   if (els.cfView) els.cfView.classList.add("view--hidden");
   if (els.homeView) els.homeView.classList.remove("view--hidden");
   if (els.galleryView) els.galleryView.classList.add("view--hidden");
+  if (els.letterScroll) els.letterScroll.classList.add("letter--hidden");
   stopDanmaku();
   clearSelectedPhotos();
   resetGiftState();
@@ -395,35 +429,28 @@ async function runSimulation({ mode }) {
     return;
   }
 
-  const order = detectTraversalOrder(code);
-  const virtues = traversePreview(order === "unknown" ? "pre" : order);
-  const first10 = virtues.slice(0, 10);
-
   consoleWrite("Compiling...");
   await sleep(1000);
 
-  consoleWrite("Running on test 1...");
-  // Slightly different “feel” based on traversal
-  if (order === "post") {
-    consoleWrite("Test Running...");
-    await sleep(450);
-  }
-  for (const v of first10) {
-    await sleep(180);
-    consoleWrite(`output: ${v}`);
-  }
-  if (order === "pre") {
-    consoleWrite("Test OK.");
-  }
-
   if (mode === "run") {
+    consoleWrite("Running on test 1...");
+    for (const v of B_VIRTUES_TEST1) {
+      await sleep(180);
+      consoleWrite(`output: ${v}`);
+    }
     consoleWrite("Finished.");
     return;
   }
 
+  // Submit: mimic CF judge scrolling through tests (no direct output for test 1)
+  for (let i = 1; i <= 10; i++) {
+    consoleWrite(`Running on test ${i}...`);
+    await sleep(220);
+  }
   consoleWrite("Running on test 11...");
   await sleep(2000);
   consoleWrite("Time Limit Exceeded");
+  consoleWrite("1s内想不出来，不过没关系，时间还长，现在超时也没有关系");
 }
 function launchCelebration() {
   // 彩带 + 泡泡：短暂飘动后自动销毁
@@ -585,6 +612,8 @@ function showLetterView(data) {
 function showGiftWall(data) {
   stopDanmaku();
   if (els.danmakuLayer) els.danmakuLayer.style.display = "none";
+  if (els.letterScroll) els.letterScroll.classList.add("letter--hidden");
+  if (els.photoUploadLabel) els.photoUploadLabel.style.display = "";
 
   if (els.photoBubbleWall) els.photoBubbleWall.classList.add("photo-bubble-wall--hidden");
   if (els.giftWall) els.giftWall.classList.remove("gift-wall--hidden");
@@ -608,13 +637,34 @@ function showGiftWall(data) {
 
 function resetGiftState() {
   openedGifts = new Set();
+  openedGiftOrder = [];
   if (els.giftGrid) {
     els.giftGrid.querySelectorAll("button.gift").forEach((b) => {
       b.classList.remove("gift--opened", "gift--shake", "gift--disabled");
       b.disabled = false;
     });
   }
+  if (els.giftResult) els.giftResult.classList.add("gift-result--hidden");
   if (els.danmakuLayer) els.danmakuLayer.style.display = "";
+}
+
+function showGiftResult() {
+  const data = CONTENT.D?.giftWall;
+  const gifts = Array.isArray(data?.gifts) ? data.gifts : [];
+  const picked = openedGiftOrder.slice(0, 3);
+  if (!els.giftResult || !els.giftResultGrid) return;
+
+  const items = els.giftResultGrid.querySelectorAll(".gift-result__item");
+  items.forEach((itemEl, i) => {
+    const idx = picked[i];
+    const g = typeof idx === "number" ? gifts[idx] : null;
+    const img = itemEl.querySelector(".gift-result__img");
+    const text = itemEl.querySelector(".gift-result__text");
+    if (img) img.src = g?.photo || "./unnamed.jpg";
+    if (text) text.textContent = g?.text || "";
+  });
+
+  els.giftResult.classList.remove("gift-result--hidden");
 }
 
 function setupDefaultPhotos(photoUrls) {
@@ -680,7 +730,7 @@ function startDanmaku(messages, danmakuConfig) {
   if (mode === "off") return;
 
   if (mode === "static") {
-    const count = Math.max(6, Math.min(18, Number(danmakuConfig.count ?? 12)));
+    const count = Math.max(4, Math.min(18, Number(danmakuConfig.count ?? 12)));
     const bubbles = [];
 
     // 更均匀：用“网格 + 小抖动”的方式铺满屏幕（顶部也要有泡泡）
@@ -884,6 +934,7 @@ function main() {
       const id = btn.getAttribute("data-gift") || "";
       const idx = Number(id);
       openedGifts.add(id);
+      openedGiftOrder.push(idx);
 
       // 剧烈晃动
       btn.classList.remove("gift--shake");
@@ -914,11 +965,22 @@ function main() {
         });
         if (els.giftHint) els.giftHint.textContent = "拆完啦～嘻嘻！";
         launchCelebration();
+        showGiftResult();
       } else {
         const left = maxOpen - openedGifts.size;
         if (els.giftHint) els.giftHint.textContent = `再拆 ${left} 朵小花～`;
       }
     });
+  }
+
+  // Gift result overlay actions
+  if (els.giftResultClose) {
+    els.giftResultClose.addEventListener("click", () => {
+      if (els.giftResult) els.giftResult.classList.add("gift-result--hidden");
+    });
+  }
+  if (els.giftResultBackHome) {
+    els.giftResultBackHome.addEventListener("click", () => showHomeView({ pushHistory: true }));
   }
 
   if (els.photoInput) {

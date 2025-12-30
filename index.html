@@ -164,6 +164,33 @@
                   </div>
                 </button>
               </div>
+
+              <!-- D：拆完 3 个后的结果页（提示截图） -->
+              <section id="giftResult" class="gift-result gift-result--hidden" aria-label="拆礼物结果页">
+                <div class="gift-result__mask" aria-hidden="true"></div>
+                <div class="gift-result__card" role="dialog" aria-modal="true" aria-label="结果">
+                  <div class="gift-result__title">拆出来的 3 个礼物</div>
+                  <div class="gift-result__sub">截图发给三口一头AC手动机即可兑换</div>
+                  <div class="gift-result__grid" id="giftResultGrid" aria-label="三个礼物">
+                    <div class="gift-result__item">
+                      <img class="gift-result__img" alt="礼物 1" />
+                      <div class="gift-result__text"></div>
+                    </div>
+                    <div class="gift-result__item">
+                      <img class="gift-result__img" alt="礼物 2" />
+                      <div class="gift-result__text"></div>
+                    </div>
+                    <div class="gift-result__item">
+                      <img class="gift-result__img" alt="礼物 3" />
+                      <div class="gift-result__text"></div>
+                    </div>
+                  </div>
+                  <div class="gift-result__actions">
+                    <button class="btn btn--primary" type="button" id="giftResultBackHome">返回主页</button>
+                    <button class="btn btn--ghost" type="button" id="giftResultClose">继续看看</button>
+                  </div>
+                </div>
+              </section>
             </section>
 
             <!-- C：画轴信件（干净场景） -->
@@ -232,22 +259,21 @@
                         <line x1="630" y1="185" x2="690" y2="255" />
                       </g>
                       <!-- nodes -->
-                      <g class="tree__nodes">
-                        <g class="n"><circle cx="380" cy="40" r="20" /><text x="380" y="46">你</text></g>
-                        <g class="n"><circle cx="210" cy="110" r="18" /><text x="210" y="116">温柔</text></g>
-                        <g class="n"><circle cx="550" cy="110" r="18" /><text x="550" y="116">靠谱</text></g>
-                        <g class="n"><circle cx="130" cy="185" r="16" /><text x="130" y="190">幽默</text></g>
-                        <g class="n"><circle cx="290" cy="185" r="16" /><text x="290" y="190">耐心</text></g>
-                        <g class="n"><circle cx="470" cy="185" r="16" /><text x="470" y="190">上进</text></g>
-                        <g class="n"><circle cx="630" cy="185" r="16" /><text x="630" y="190">担当</text></g>
-                        <g class="n"><circle cx="70" cy="255" r="14" /><text x="70" y="260">细心</text></g>
-                        <g class="n"><circle cx="170" cy="255" r="14" /><text x="170" y="260">真诚</text></g>
-                        <g class="n"><circle cx="250" cy="255" r="14" /><text x="250" y="260">热爱</text></g>
-                        <g class="n"><circle cx="330" cy="255" r="14" /><text x="330" y="260">克制</text></g>
-                        <g class="n"><circle cx="430" cy="255" r="14" /><text x="430" y="260">自律</text></g>
-                        <g class="n"><circle cx="510" cy="255" r="14" /><text x="510" y="260">勇敢</text></g>
-                        <g class="n"><circle cx="590" cy="255" r="14" /><text x="590" y="260">可爱</text></g>
-                        <g class="n"><circle cx="690" cy="255" r="14" /><text x="690" y="260">善良</text></g>
+                      <g class="tree__nodes">                        <g class="n"><circle cx="380" cy="40" r="20" /><text x="380" y="46">U</text></g>
+                        <g class="n"><circle cx="210" cy="110" r="18" /></g>
+                        <g class="n"><circle cx="550" cy="110" r="18" /></g>
+                        <g class="n"><circle cx="130" cy="185" r="16" /></g>
+                        <g class="n"><circle cx="290" cy="185" r="16" /></g>
+                        <g class="n"><circle cx="470" cy="185" r="16" /></g>
+                        <g class="n"><circle cx="630" cy="185" r="16" /></g>
+                        <g class="n"><circle cx="70" cy="255" r="14" /></g>
+                        <g class="n"><circle cx="170" cy="255" r="14" /></g>
+                        <g class="n"><circle cx="250" cy="255" r="14" /></g>
+                        <g class="n"><circle cx="330" cy="255" r="14" /></g>
+                        <g class="n"><circle cx="430" cy="255" r="14" /></g>
+                        <g class="n"><circle cx="510" cy="255" r="14" /></g>
+                        <g class="n"><circle cx="590" cy="255" r="14" /></g>
+                        <g class="n"><circle cx="690" cy="255" r="14" /></g>
                       </g>
                       <!-- more -->
                       <g class="tree__more">
