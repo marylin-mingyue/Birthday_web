@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>生日小礼物</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="stage" aria-label="生日小礼物">
+      <section class="scene" aria-label="角色与对话框">
+        <div class="bg" aria-hidden="true"></div>
+        <div id="fxLayer" class="fx-layer" aria-hidden="true"></div>
+
+        <!-- Home View (有可莉 + 选项) -->
+        <section id="homeView" class="view view--home" aria-label="主页">
+          <div class="decor-layer" aria-hidden="true">
+            <div class="balloon balloon--a"></div>
+            <div class="balloon balloon--b"></div>
+            <div class="balloon balloon--c"></div>
+            <div class="magic-orb magic-orb--a"></div>
+            <div class="magic-orb magic-orb--b"></div>
+            <div class="magic-orb magic-orb--c"></div>
+            <div class="magic-sigil magic-sigil--a"></div>
+            <div class="magic-sigil magic-sigil--b"></div>
+          </div>
+
+          <div class="layout" aria-label="左右布局">
+            <div class="left" aria-label="人物区域">
+              <button id="characterButton" class="character" type="button" aria-label="可莉">
+                <img
+                  id="characterImg"
+                  class="character__img"
+                  src="./assets/klee.png"
+                  alt="角色立绘"
+                  draggable="false"
+                />
+                <span class="character__shadow" aria-hidden="true"></span>
+              </button>
+              <div class="left__hint">嘻嘻～点右边的小秘密！</div>
+            </div>
+
+            <div class="right" aria-label="对话框区域">
+              <div id="bubble" class="bubble" role="dialog" aria-modal="false" aria-label="对话框">
+                <div class="bubble__cloud" aria-hidden="true"></div>
+                <div class="bubble__content">
+                  <div class="bubble__title" id="bubbleTitle">嘻嘻～选一个吧！</div>
+
+                  <div class="bubble__body" id="bubbleBody">
+                    <div class="choices" id="choices">
+                      <button class="choice" type="button" data-choice="A">
+                        <span class="choice__tag">A</span>
+                        <span class="choice__text">第一次见面，你有没有“砰”一下心动？</span>
+                      </button>
+                      <button class="choice" type="button" data-choice="B">
+                        <span class="choice__tag">B</span>
+                        <span class="choice__text">我男朋友的 1e9+10 个优点！</span>
+                      </button>
+                      <button class="choice" type="button" data-choice="C">
+                        <span class="choice__tag">C</span>
+                        <span class="choice__text">生日到了～有什么想对我说的呀？</span>
+                      </button>
+                      <button class="choice" type="button" data-choice="D">
+                        <span class="choice__tag">D</span>
+                        <span class="choice__text">可以拆礼物了么？</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Gallery View (无可莉：气球照片墙 + 泡泡弹幕) -->
+        <section id="galleryView" class="view view--gallery view--hidden" aria-label="气球相册页">
+          <div class="gallery-top">
+            <button class="btn btn--ghost" type="button" id="galleryBackBtn">返回</button>
+            <div class="gallery-title" id="galleryTitle">相册</div>
+            <label class="btn btn--ghost gallery-upload" id="photoUploadLabel">
+              选照片
+              <input id="photoInput" type="file" accept="image/*" multiple />
+            </label>
+          </div>
+
+          <div class="gallery-stage" aria-label="气球照片区">
+            <div id="photoBubbleWall" class="photo-bubble-wall" aria-label="泡泡相册墙">
+              <div class="photo-bubble" data-slot="0"><img alt="照片 1" /></div>
+              <div class="photo-bubble" data-slot="1"><img alt="照片 2" /></div>
+              <div class="photo-bubble" data-slot="2"><img alt="照片 3" /></div>
+              <div class="photo-bubble" data-slot="3"><img alt="照片 4" /></div>
+              <div class="photo-bubble" data-slot="4"><img alt="照片 5" /></div>
+              <div class="photo-bubble" data-slot="5"><img alt="照片 6" /></div>
+              <div class="photo-bubble" data-slot="6"><img alt="照片 7" /></div>
+              <div class="photo-bubble" data-slot="7"><img alt="照片 8" /></div>
+              <div class="photo-bubble" data-slot="8"><img alt="照片 9" /></div>
+              <div class="photo-bubble" data-slot="9"><img alt="照片 10" /></div>
+            </div>
+
+            <section id="giftWall" class="gift-wall gift-wall--hidden" aria-label="礼物墙">
+              <div class="gift-wall__hint" id="giftHint">可以拆 3 个礼物哦～</div>
+              <div class="gift-grid" id="giftGrid" aria-label="九宫格礼物">
+                <button class="gift" type="button" data-gift="0" aria-label="拆礼物 1">
+                  <img class="gift__flower" src="./assets/flower.png" alt="" />
+                  <div class="gift__content" aria-hidden="true">
+                    <img class="gift__img" alt="礼物照片" />
+                    <div class="gift__text"></div>
+                  </div>
+                </button>
+                <button class="gift" type="button" data-gift="1" aria-label="拆礼物 2">
+                  <img class="gift__flower" src="./assets/flower.png" alt="" />
+                  <div class="gift__content" aria-hidden="true">
+                    <img class="gift__img" alt="礼物照片" />
+                    <div class="gift__text"></div>
+                  </div>
+                </button>
+                <button class="gift" type="button" data-gift="2" aria-label="拆礼物 3">
+                  <img class="gift__flower" src="./assets/flower.png" alt="" />
+                  <div class="gift__content" aria-hidden="true">
+                    <img class="gift__img" alt="礼物照片" />
+                    <div class="gift__text"></div>
+                  </div>
+                </button>
+                <button class="gift" type="button" data-gift="3" aria-label="拆礼物 4">
+                  <img class="gift__flower" src="./assets/flower.png" alt="" />
+                  <div class="gift__content" aria-hidden="true">
+                    <img class="gift__img" alt="礼物照片" />
+                    <div class="gift__text"></div>
+                  </div>
+                </button>
+                <button class="gift" type="button" data-gift="4" aria-label="拆礼物 5">
+                  <img class="gift__flower" src="./assets/flower.png" alt="" />
+                  <div class="gift__content" aria-hidden="true">
+                    <img class="gift__img" alt="礼物照片" />
+                    <div class="gift__text"></div>
+                  </div>
+                </button>
+                <button class="gift" type="button" data-gift="5" aria-label="拆礼物 6">
+                  <img class="gift__flower" src="./assets/flower.png" alt="" />
+                  <div class="gift__content" aria-hidden="true">
+                    <img class="gift__img" alt="礼物照片" />
+                    <div class="gift__text"></div>
+                  </div>
+                </button>
+                <button class="gift" type="button" data-gift="6" aria-label="拆礼物 7">
+                  <img class="gift__flower" src="./assets/flower.png" alt="" />
+                  <div class="gift__content" aria-hidden="true">
+                    <img class="gift__img" alt="礼物照片" />
+                    <div class="gift__text"></div>
+                  </div>
+                </button>
+                <button class="gift" type="button" data-gift="7" aria-label="拆礼物 8">
+                  <img class="gift__flower" src="./assets/flower.png" alt="" />
+                  <div class="gift__content" aria-hidden="true">
+                    <img class="gift__img" alt="礼物照片" />
+                    <div class="gift__text"></div>
+                  </div>
+                </button>
+                <button class="gift" type="button" data-gift="8" aria-label="拆礼物 9">
+                  <img class="gift__flower" src="./assets/flower.png" alt="" />
+                  <div class="gift__content" aria-hidden="true">
+                    <img class="gift__img" alt="礼物照片" />
+                    <div class="gift__text"></div>
+                  </div>
+                </button>
+              </div>
+            </section>
+
+            <!-- C：画轴信件（干净场景） -->
+            <section id="letterScroll" class="letter letter--hidden" aria-label="画轴信件">
+              <div class="letter__scroll">
+                <div class="letter__rod letter__rod--top"></div>
+                <div class="letter__paper">
+                  <div class="letter__inner">
+                    <div class="letter__title" id="letterTitle">给你的一封信</div>
+                    <div class="letter__body" id="letterBody"></div>
+                    <div class="letter__sign" id="letterSign">——</div>
+                  </div>
+                </div>
+                <div class="letter__rod letter__rod--bottom"></div>
+              </div>
+            </section>
+          </div>
+
+          <div id="danmakuLayer" class="danmaku-layer" aria-label="泡泡弹幕"></div>
+        </section>
+
+        <!-- CF View (B：Codeforces 风格题面 + 编辑器 + 控制台) -->
+        <section id="cfView" class="view view--cf view--hidden" aria-label="B 选项代码界面">
+          <div class="cf-wrap" aria-label="Codeforces 布局">
+            <div class="cf-left" aria-label="题面区">
+              <div class="cf-card">
+                <div class="cf-title">Problem 520A. Traversal of Love</div>
+                <div class="cf-meta">
+                  <span>Time Limit: 1.0s</span>
+                  <span>Memory Limit: 256MB</span>
+                </div>
+                <div class="cf-section">
+                  <div class="cf-h">Description</div>
+                  <div class="cf-p">
+                    Given a binary tree of virtues, please traverse all nodes to output my love for you.
+                    The number of nodes is guaranteed to be <span class="cf-math">$10^9 + 10$</span>.
+                  </div>
+                </div>
+                <div class="cf-section">
+                  <div class="cf-h">Input</div>
+                  <div class="cf-p">Root node of the virtue tree.</div>
+                </div>
+                <div class="cf-section">
+                  <div class="cf-h">Output</div>
+                  <div class="cf-p">All virtues.</div>
+                </div>
+                <div class="cf-section">
+                  <div class="cf-h">Virtue Tree (preview)</div>
+                  <div class="tree-wrap" aria-label="二叉树预览">
+                    <svg class="tree" viewBox="0 0 760 360" role="img" aria-label="四层二叉树">
+                      <!-- edges -->
+                      <g class="tree__edges">
+                        <line x1="380" y1="40" x2="210" y2="110" />
+                        <line x1="380" y1="40" x2="550" y2="110" />
+                        <line x1="210" y1="110" x2="130" y2="185" />
+                        <line x1="210" y1="110" x2="290" y2="185" />
+                        <line x1="550" y1="110" x2="470" y2="185" />
+                        <line x1="550" y1="110" x2="630" y2="185" />
+                        <line x1="130" y1="185" x2="70" y2="255" />
+                        <line x1="130" y1="185" x2="170" y2="255" />
+                        <line x1="290" y1="185" x2="250" y2="255" />
+                        <line x1="290" y1="185" x2="330" y2="255" />
+                        <line x1="470" y1="185" x2="430" y2="255" />
+                        <line x1="470" y1="185" x2="510" y2="255" />
+                        <line x1="630" y1="185" x2="590" y2="255" />
+                        <line x1="630" y1="185" x2="690" y2="255" />
+                      </g>
+                      <!-- nodes -->
+                      <g class="tree__nodes">
+                        <g class="n"><circle cx="380" cy="40" r="20" /><text x="380" y="46">你</text></g>
+                        <g class="n"><circle cx="210" cy="110" r="18" /><text x="210" y="116">温柔</text></g>
+                        <g class="n"><circle cx="550" cy="110" r="18" /><text x="550" y="116">靠谱</text></g>
+                        <g class="n"><circle cx="130" cy="185" r="16" /><text x="130" y="190">幽默</text></g>
+                        <g class="n"><circle cx="290" cy="185" r="16" /><text x="290" y="190">耐心</text></g>
+                        <g class="n"><circle cx="470" cy="185" r="16" /><text x="470" y="190">上进</text></g>
+                        <g class="n"><circle cx="630" cy="185" r="16" /><text x="630" y="190">担当</text></g>
+                        <g class="n"><circle cx="70" cy="255" r="14" /><text x="70" y="260">细心</text></g>
+                        <g class="n"><circle cx="170" cy="255" r="14" /><text x="170" y="260">真诚</text></g>
+                        <g class="n"><circle cx="250" cy="255" r="14" /><text x="250" y="260">热爱</text></g>
+                        <g class="n"><circle cx="330" cy="255" r="14" /><text x="330" y="260">克制</text></g>
+                        <g class="n"><circle cx="430" cy="255" r="14" /><text x="430" y="260">自律</text></g>
+                        <g class="n"><circle cx="510" cy="255" r="14" /><text x="510" y="260">勇敢</text></g>
+                        <g class="n"><circle cx="590" cy="255" r="14" /><text x="590" y="260">可爱</text></g>
+                        <g class="n"><circle cx="690" cy="255" r="14" /><text x="690" y="260">善良</text></g>
+                      </g>
+                      <!-- more -->
+                      <g class="tree__more">
+                        <line x1="40" y1="315" x2="720" y2="315" />
+                        <text x="380" y="345">···</text>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cf-right" aria-label="编辑器与控制台区">
+              <div class="cf-editor-card">
+                <div class="cf-editor-header">
+                  <div class="cf-editor-title">C++ (Monaco Editor)</div>
+                  <div class="cf-editor-note" id="monacoStatus">Loading editor…</div>
+                </div>
+                <div id="monaco" class="monaco" aria-label="代码编辑器"></div>
+              </div>
+
+              <div class="cf-bottom">
+                <div class="cf-actions">
+                  <button class="btn btn--primary" type="button" id="runBtn">Run Code</button>
+                  <button class="btn btn--ghost" type="button" id="submitBtn">Submit</button>
+                  <button class="btn btn--ghost" type="button" id="cfBackBtn">返回</button>
+                </div>
+                <div class="cf-console">
+                  <div class="cf-console__title">Console</div>
+                  <pre id="console" class="cf-console__body"></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="corner corner--left" aria-hidden="true"></div>
+        <div class="corner corner--right" aria-hidden="true"></div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer__hint">生日快乐～嘻嘻！</div>
+      </footer>
+    </main>
+
+    <!-- Fallback: if hash is empty, force #home (helps verify page is updated) -->
+    <script>
+      if (!location.hash) location.hash = "#home";
+    </script>
+    <!-- Cache-bust main.js to avoid stale browser cache -->
+    <script src="./main.js?v=20251230-2"></script>
+  </body>
+</html>
+
+
