@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff7e9"/>
+      <stop offset="1" stop-color="#ff5a4f"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#g)"/>
+  <circle cx="360" cy="460" r="200" fill="rgba(255,255,255,0.26)"/>
+  <circle cx="580" cy="300" r="110" fill="rgba(255,255,255,0.34)"/>
+  <text x="50%" y="52%" text-anchor="middle" font-family="ui-monospace, Menlo, Monaco, Consolas, monospace" font-size="34" fill="rgba(58,42,31,0.65)">PHOTO</text>
+  <text x="50%" y="60%" text-anchor="middle" font-family="system-ui, -apple-system, PingFang SC, sans-serif" font-size="18" fill="rgba(58,42,31,0.55)">Replace with your own image</text>
+</svg>
+

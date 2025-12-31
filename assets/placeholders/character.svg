@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="540" height="960" viewBox="0 0 540 960">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff7e9"/>
+      <stop offset="1" stop-color="#ffd1a8"/>
+    </linearGradient>
+  </defs>
+  <rect width="540" height="960" rx="48" fill="url(#bg)"/>
+  <circle cx="270" cy="310" r="160" fill="rgba(255,255,255,0.55)"/>
+  <rect x="140" y="520" width="260" height="280" rx="46" fill="rgba(255,255,255,0.45)"/>
+  <text x="50%" y="88%" text-anchor="middle" font-family="system-ui, -apple-system, PingFang SC, sans-serif" font-size="22" fill="rgba(58,42,31,0.65)">Character Placeholder</text>
+  <text x="50%" y="92%" text-anchor="middle" font-family="system-ui, -apple-system, PingFang SC, sans-serif" font-size="14" fill="rgba(58,42,31,0.52)">Put your own image at assets/klee.png</text>
+</svg>
+

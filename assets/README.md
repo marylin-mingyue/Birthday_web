@@ -1,12 +1,10 @@
-把你的角色图片放在这里：
+此目录在 public template 中只包含 placeholder。
 
-- 文件路径：`assets/klee.png`
-
-建议使用 PNG（带透明背景更好看）。
-
-另外，D 选项“礼物墙”的小花外观需要你把小花图片存成：
-
+如果你要放入个人素材（建议只在私有仓库/本地），请放到：
+- `assets/klee.png`
 - `assets/flower.png`
+- `assets/photo/`
+- `assets/gift/`
 
 
 

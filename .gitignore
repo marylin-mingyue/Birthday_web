@@ -1,0 +1,12 @@
+# Personal / private assets (do not publish)
+assets/klee.png
+assets/flower.png
+assets/photo/**
+assets/gift/**
+
+# OS / editor
+.DS_Store
+.cursor/
+terminals/
+
+
