@@ -44,4 +44,8 @@ python3 -m http.server 5173
 - 你的回答内容：修改 `main.js` 里的 `CONTENT`
 - UI 配色/泡泡样式：修改 `styles.css`
 
+## OJ 版（二叉树遍历）
+
+如果你想要一个**真正能在 Online Judge 上 stdin/stdout 跑的版本**，见 `oj/`（含 `oj/main.cpp` 和输入输出说明）。
+
 

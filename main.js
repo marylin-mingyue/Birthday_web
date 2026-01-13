@@ -342,6 +342,25 @@ function detectTraversalOrder(code) {
   return "pre";
 }
 
+function hasNullGuard(code) {
+  const bodyMatch = code.match(/void\s+traverse\s*\([^)]*\)\s*\{([\s\S]*?)\}/);
+  const body = bodyMatch ? bodyMatch[1] : code;
+  // common null-guards in C++
+  return (
+    /if\s*\(\s*!\s*root\s*\)\s*return\s*;/.test(body) ||
+    /if\s*\(\s*root\s*==\s*(NULL|nullptr)\s*\)\s*return\s*;/.test(body) ||
+    /if\s*\(\s*(NULL|nullptr)\s*==\s*root\s*\)\s*return\s*;/.test(body)
+  );
+}
+
+function hasBothSidesTraversal(code) {
+  const bodyMatch = code.match(/void\s+traverse\s*\([^)]*\)\s*\{([\s\S]*?)\}/);
+  const body = bodyMatch ? bodyMatch[1] : code;
+  const hasL = /->left|traverse\s*\(\s*root->left\s*\)/.test(body);
+  const hasR = /->right|traverse\s*\(\s*root->right\s*\)/.test(body);
+  return hasL && hasR;
+}
+
 function buildVirtueTree() {
   const nodes = [
     "温柔",
@@ -428,25 +447,44 @@ async function runSimulation({ mode }) {
   consoleWrite("Compiling...");
   await sleep(1000);
 
-  if (mode === "run") {
-    consoleWrite("Running on test 1...");
-    for (const v of B_VIRTUES_TEST1) {
-      await sleep(180);
-      consoleWrite(`output: ${v}`);
-    }
-    consoleWrite("Finished.");
+  const order = detectTraversalOrder(code);
+  if (order === "unknown") {
+    consoleWrite("Compilation Error");
+    consoleWrite("No output found. Hint: use output(root->val) or cout << root->val");
+    return;
+  }
+  if (!hasNullGuard(code)) {
+    consoleWrite("Runtime Error");
+    consoleWrite("Segmentation fault: missing null guard (add: if (!root) return;)");
     return;
   }
 
-  // Submit: mimic CF judge scrolling through tests (no direct output for test 1)
+  // “Run Code”：展示一次真实遍历的输出（按你写的 traverse 的顺序猜测 pre/in/post）
+  if (mode === "run") {
+    consoleWrite("Running on sample...");
+    await sleep(260);
+    const out = traversePreview(order);
+    for (const v of out) {
+      await sleep(160);
+      consoleWrite(`output: ${v}`);
+    }
+    consoleWrite(`Finished. (order: ${order}-order)`);
+    return;
+  }
+
+  // “Submit”：更像 OJ 的判题反馈（不直接显示每个测试的输出）
   for (let i = 1; i <= 10; i++) {
     consoleWrite(`Running on test ${i}...`);
-    await sleep(220);
+    await sleep(180);
   }
-  consoleWrite("Running on test 11...");
-  await sleep(2000);
-  consoleWrite("Time Limit Exceeded");
-  consoleWrite("1s内想不出来，不过没关系，时间还长，现在超时也没有关系");
+  await sleep(260);
+  if (!hasBothSidesTraversal(code)) {
+    consoleWrite("Wrong Answer");
+    consoleWrite("Your traversal seems to miss one side (left/right). Try visiting both subtrees.");
+    return;
+  }
+  consoleWrite("Accepted");
+  consoleWrite("你把整棵树都走完啦（嘻嘻～）");
 }
 function launchCelebration() {
   // 彩带 + 泡泡：短暂飘动后自动销毁
